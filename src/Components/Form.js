@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import { selectionSort } from "./sortingAlgorithms";
-import { initRandomArray } from "./utils";
+import { selectionSort, bubbleSort } from "./sortingAlgorithms";
+import { initRandomArray, clearArray } from "./utils";
 
+const NONE = "";
 const SELECTION_SORT = "selectionSort";
 const BUBBLE_SORT = "bubbleSort";
-const NONE = "";
 
 const algorithmMap = {
   [NONE]: arr => arr,
   [SELECTION_SORT]: selectionSort,
-  [BUBBLE_SORT]: arr => arr
+  [BUBBLE_SORT]: bubbleSort
 };
 
 const algorithmLabelMap = {
@@ -22,9 +22,10 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      arrayValue: initRandomArray(10).join(","),
+      arrayValue: initRandomArray(10000).join(","),
       separatorValue: ",",
-      currentAlgorithm: NONE,
+      currentAlgorithm: SELECTION_SORT,
+      duration: 0,
       result: []
     };
 
@@ -45,19 +46,35 @@ class Form extends Component {
   }
 
   handleChangeSelect(event) {
-    this.setState({ currentAlgorithm: event.target.value });
+    this.setState({
+      currentAlgorithm: event.target.value,
+      result: [],
+      duration: 0
+    });
   }
 
   calcResult() {
-    const unsortedArray = this.state.arrayValue.split(
-      this.state.separatorValue
+    const unsortedArray = clearArray(
+      this.state.arrayValue.split(this.state.separatorValue)
     );
+
+    if (this.state.currentAlgorithm === NONE || unsortedArray.length === 0) {
+      this.setState({
+        result: [],
+        duration: 0
+      });
+      return;
+    }
+
+    const startTime = performance.now();
     const sortedArray = algorithmMap[this.state.currentAlgorithm](
       unsortedArray
     );
+    const endTime = performance.now();
 
     this.setState({
-      result: sortedArray
+      result: sortedArray,
+      duration: (endTime - startTime).toFixed(4)
     });
   }
 
@@ -102,13 +119,11 @@ class Form extends Component {
         </div>
         <div>
           <h2>Sorting result</h2>
-          {/* <textarea value={this.state.result} /> */}
           <div>{`Used Algorithm: ${
             algorithmLabelMap[this.state.currentAlgorithm]
           }`}</div>
-          <div>{`Sorting Result: ${this.state.result.join(
-            this.state.separatorValue
-          )}`}</div>
+          <div>{`Exectution time: ${this.state.duration} milliseconds`}</div>
+          <div>{`Sorting Result: ${this.state.result.join(` `)}`}</div>
         </div>
       </div>
     );

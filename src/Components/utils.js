@@ -2,8 +2,12 @@ export const initRandomArray = n => {
   const arr = [];
 
   for (let i = 0; i < n; i++) {
-    arr.push(Math.floor(Math.random() * 100) + 1);
+    arr.push(Math.floor(Math.random() * 10000) + 1);
   }
 
   return arr;
+};
+
+export const clearArray = arr => {
+  return arr.map(Number).filter(Boolean);
 };

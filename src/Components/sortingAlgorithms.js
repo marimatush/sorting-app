@@ -1,19 +1,44 @@
 export const selectionSort = arr => {
-  let numArray = arr.map(Number);
+  let resultArr = arr;
 
-  for (let i = 0; i < numArray.length - 1; i++) {
+  for (let i = 0; i < resultArr.length - 1; i++) {
     let minIndex = i;
 
-    for (let j = i + 1; j < numArray.length; j++) {
-      if (numArray[j] < numArray[minIndex]) {
+    for (let j = i + 1; j < resultArr.length; j++) {
+      if (resultArr[j] < resultArr[minIndex]) {
         minIndex = j;
       }
     }
-
-    const tempElement = numArray[minIndex];
-    numArray[minIndex] = numArray[i];
-    numArray[i] = tempElement;
+    resultArr = swapElements(minIndex, i, resultArr);
   }
 
-  return numArray;
+  return resultArr;
+};
+
+export const bubbleSort = arr => {
+  let resultArr = arr;
+  let swapped = false;
+
+  for (let i = 0; i < resultArr.length; i++) {
+    swapped = false;
+    for (let j = 0; j < resultArr.length - i - 1; j++) {
+      if (resultArr[j] > resultArr[j + 1]) {
+        resultArr = swapElements(j, j + 1, resultArr);
+        swapped = true;
+      }
+    }
+    if (!swapped) {
+      return resultArr;
+    }
+  }
+
+  return resultArr;
+};
+
+const swapElements = (i1, i2, arr) => {
+  let newArr = arr;
+  const tempElement = newArr[i1];
+  newArr[i1] = newArr[i2];
+  newArr[i2] = tempElement;
+  return newArr;
 };
