@@ -24,6 +24,7 @@ class Form extends Component {
     this.state = {
       arrayValue: initRandomArray(10000).join(","),
       separatorValue: ",",
+      arrayLength: 10,
       currentAlgorithm: SELECTION_SORT,
       duration: 0,
       result: []
@@ -31,13 +32,21 @@ class Form extends Component {
 
     this.handleChangeArray = this.handleChangeArray.bind(this);
     this.handleChangeSeparator = this.handleChangeSeparator.bind(this);
+    this.handleChangeArrayLength = this.handleChangeArrayLength.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
     this.calcResult = this.calcResult.bind(this);
+    this.generateRandomArray = this.generateRandomArray.bind(this);
   }
 
   handleChangeArray(event) {
     this.setState({
       arrayValue: event.target.value
+    });
+  }
+
+  handleChangeArrayLength(event) {
+    this.setState({
+      arrayLength: event.target.value
     });
   }
 
@@ -51,6 +60,11 @@ class Form extends Component {
       result: [],
       duration: 0
     });
+  }
+
+  generateRandomArray() {
+    const newArr = initRandomArray(this.state.arrayLength).join(",");
+    this.setState({ arrayValue: newArr });
   }
 
   calcResult() {
@@ -88,6 +102,17 @@ class Form extends Component {
             value={this.state.arrayValue}
             onChange={this.handleChangeArray}
           />
+          <div>
+            <button type="button" onClick={this.generateRandomArray}>
+              Generate random array
+            </button>{" "}
+            of length{" "}
+            <input
+              type="text"
+              value={this.state.arrayLength}
+              onChange={this.handleChangeArrayLength}
+            />
+          </div>
           <div>
             Separator{" "}
             <input
