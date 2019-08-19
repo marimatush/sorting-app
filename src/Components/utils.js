@@ -9,7 +9,6 @@ export const initRandomArray = n => {
 };
 
 export const clearArray = arr => {
-  // return arr.map(Number).filter(!isNaN);
   return arr.map(Number).filter(isNumber);
 };
 

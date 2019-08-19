@@ -63,7 +63,9 @@ class Form extends Component {
   }
 
   generateRandomArray() {
-    const newArr = initRandomArray(this.state.arrayLength).join(",");
+    const newArr = initRandomArray(this.state.arrayLength).join(
+      this.state.separatorValue
+    );
     this.setState({ arrayValue: newArr });
   }
 
