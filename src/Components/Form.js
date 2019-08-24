@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { selectionSort, bubbleSort } from "./sortingAlgorithms";
 import { initRandomArray, clearArray } from "./utils";
+import styles from "./Form.module.css";
 
 const NONE = "";
 const SELECTION_SORT = "selectionSort";
@@ -99,8 +100,8 @@ class Form extends Component {
       <div>
         <div>
           <div>Enter array of numbers</div>
-          <input
-            type="text"
+          <textarea
+            className={styles.input}
             value={this.state.arrayValue}
             onChange={this.handleChangeArray}
           />
